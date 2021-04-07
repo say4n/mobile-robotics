@@ -55,7 +55,22 @@ class Environment:
         return obs
 
     def act(self, direction):
-        pass
+        r, c = self.__position
+
+        if direction == Direction.U:
+            if self.__is_free_cell(r + 1, c):
+                self.__position = (r + 1, c)
+        elif direction == Direction.D:
+            if self.__is_free_cell(r - 1, c):
+                self.__position = (r - 1, c)
+        elif direction == Direction.L:
+            if self.__is_free_cell(r, c - 1):
+                self.__position = (r, c - 1)
+        elif direction == Direction.R:
+            if self.__is_free_cell(r, c + 1):
+                self.__position = (r, c + 1)
+        else:
+            raise ValueError(f"Invalid {direction = }.")
 
     def __is_free_cell(self, position):
         r, c = position
