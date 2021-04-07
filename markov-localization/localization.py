@@ -89,6 +89,9 @@ class Environment:
             # Invalid position.
             return State.OCCUPIED
 
+    def get_possible_locations_given_observation(self, observation):
+        pass
+
     def __repr__(self):
         to_print = ""
 
@@ -107,7 +110,6 @@ class Environment:
             to_print += "|\n"
 
         return to_print
-
 
 
 if __name__ == "__main__":
