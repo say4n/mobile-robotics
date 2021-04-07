@@ -30,29 +30,41 @@ class Environment:
         r, c = self.position
         obs = [None, None, None, None]  # Up, down, left, right.
 
-        # Up.
-        if self.__is_free_cell((r - 1, c)):
-            obs[0] = State.FREE
+        if np.random.random() < self.sensor_noise:
+            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
         else:
-            obs[0] = State.OCCUPIED
+            # Up.
+            if self.__is_free_cell((r - 1, c)):
+                obs[0] = State.FREE
+            else:
+                obs[0] = State.OCCUPIED
 
-        # Down.
-        if self.__is_free_cell((r + 1, c)):
-            obs[0] = State.FREE
+        if np.random.random() < self.sensor_noise:
+            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
         else:
-            obs[0] = State.OCCUPIED
+            # Down.
+            if self.__is_free_cell((r + 1, c)):
+                obs[0] = State.FREE
+            else:
+                obs[0] = State.OCCUPIED
 
-        # Left.
-        if self.__is_free_cell((r, c - 1)):
-            obs[0] = State.FREE
+        if np.random.random() < self.sensor_noise:
+            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
         else:
-            obs[0] = State.OCCUPIED
+            # Left.
+            if self.__is_free_cell((r, c - 1)):
+                obs[0] = State.FREE
+            else:
+                obs[0] = State.OCCUPIED
 
-        # Right.
-        if self.__is_free_cell((r, c + 1)):
-            obs[0] = State.FREE
+        if np.random.random() < self.sensor_noise:
+            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
         else:
-            obs[0] = State.OCCUPIED
+            # Right.
+            if self.__is_free_cell((r, c + 1)):
+                obs[0] = State.FREE
+            else:
+                obs[0] = State.OCCUPIED
 
         return obs
 
