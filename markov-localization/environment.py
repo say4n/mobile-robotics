@@ -2,17 +2,18 @@ import numpy as np
 from enum import Enum
 
 class State(Enum):
-    FREE = 0          # Cell is free.
-    OCCUPIED = 1      # Cell is a wall.
+    FREE = 0                # Cell is free.
+    OCCUPIED = 1            # Cell is a wall.
+
 class Stage(Enum):
-    PREDICTION = 100    # Prediction/action stage.
-    PERCEPTION = 101    # Perception/measurement/correction stage.
+    PREDICTION = 100        # Prediction/action stage.
+    PERCEPTION = 101        # Perception/measurement/correction stage.
 
 class Direction(Enum):
-    U = 200               # Up action.
-    D = 201               # Down action.
-    L = 202               # Left action.
-    R = 203               # Right action.
+    U = 200                 # Up action.
+    D = 201                 # Down action.
+    L = 202                 # Left action.
+    R = 203                 # Right action.
 
 class Environment:
     def __init__(self, map):
