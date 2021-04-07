@@ -33,6 +33,12 @@ class Environment:
         self.free_cells = np.argwhere(self.map == State.FREE)
         self.__position = self.free_cells[np.random.choice(np.arange(len(self.free_cells)))]
 
+    def get_n_rows(self):
+        return self.n_rows
+
+    def get_n_cols(self):
+        return self.n_cols
+
     def sense(self, position = None):
         r, c = self.__position if position is None else position
         obs = [None, None, None, None]  # Up, down, left, right.
