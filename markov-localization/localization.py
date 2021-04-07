@@ -22,10 +22,10 @@ class Environment:
         self.n_rows = len(map)
         self.n_cols = len(map[0])
 
-        self.position = np.random.choice(np.argwhere(map == 0))
+        self.__position = np.random.choice(np.argwhere(map == 0))
 
     def sense(self):
-        r, c = self.position
+        r, c = self.__position
         obs = [None, None, None, None]  # Up, down, left, right.
 
         # Up.
