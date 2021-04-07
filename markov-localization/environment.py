@@ -40,6 +40,9 @@ class Environment:
     def get_n_cols(self):
         return self.n_cols
 
+    def get_free_cells(self):
+        return self.free_cells
+
     def sense(self, position = None):
         r, c = self.__position if position is None else position
         obs = [None, None, None, None]  # Up, down, left, right.
