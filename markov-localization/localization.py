@@ -1,28 +1,37 @@
 import numpy as np
 from enum import Enum
 
-class Direction(Enum):
-    U = 0               # Up action.
-    D = 1               # Down action.
-    L = 2               # Left action.
-    R = 3               # Right action.
-
+class State(Enum):
+    FREE = 0          # Cell is free.
+    OCCUPIED = 1      # Cell is a wall.
 class Stage(Enum):
     PREDICTION = 100    # Prediction/action stage.
     PERCEPTION = 101    # Perception/measurement/correction stage.
 
-class State(Enum):
-    FREE = 200          # Cell is free.
-    OCCUPIED = 201      # Cell is a wall.
+class Direction(Enum):
+    U = 200               # Up action.
+    D = 201               # Down action.
+    L = 202               # Left action.
+    R = 203               # Right action.
 
 class Environment:
     def __init__(self, map):
-        self.map = map
+        n_rows = len(map)
+        n_cols = len(map[0])
 
-        self.n_rows = len(map)
-        self.n_cols = len(map[0])
+        self.map = [[None for _ in range(n_cols)] for _ in range(n_rows)]
 
-        self.__position = np.random.choice(np.argwhere(map == 0))
+        for r in range(n_rows):
+            for c in range(n_cols):
+                self.map[r][c] = State.FREE if map[r][c] == 0 else State.OCCUPIED
+
+        self.map = np.array(self.map)
+
+        self.n_rows = n_rows
+        self.n_cols = n_cols
+
+        self.free_cells = np.argwhere(self.map == State.FREE)
+        self.__position = self.free_cells[np.random.choice(np.arange(len(self.free_cells)))]
 
     def sense(self):
         r, c = self.__position
@@ -81,8 +90,39 @@ class Environment:
             return State.OCCUPIED
 
     def __repr__(self):
-        return self.map
+        to_print = ""
+
+        pos_r, pos_c = self.__position
+
+        for r in range(self.n_rows):
+            for c in range(self.n_cols):
+                to_print += "|"
+                if pos_r == r and pos_c == c:
+                    to_print += "x"
+                elif self.map[r][c] == State.FREE:
+                    to_print += " "
+                else:
+                    to_print += "#"
+
+            to_print += "|\n"
+
+        return to_print
+
 
 
 if __name__ == "__main__":
-    map = []
+    map = [
+        [1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+        [1, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 1, 1, 0, 1, 1, 0, 1],
+        [1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+        [1, 1, 1, 1, 0, 0, 1, 0, 1, 0],
+        [1, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+    ]
+
+    env = Environment(map)
+    print(env)
