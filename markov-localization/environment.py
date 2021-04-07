@@ -24,7 +24,7 @@ class Environment:
 
         for r in range(n_rows):
             for c in range(n_cols):
-                self.map[r][c] = State.FREE if map[r][c] == 0 else State.OCCUPIED
+                self.map[r][c] = State.FREE if map[r][c] == 1 else State.OCCUPIED
 
         self.map = np.array(self.map)
 
