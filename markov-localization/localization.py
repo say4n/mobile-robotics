@@ -33,8 +33,8 @@ class Environment:
         self.free_cells = np.argwhere(self.map == State.FREE)
         self.__position = self.free_cells[np.random.choice(np.arange(len(self.free_cells)))]
 
-    def sense(self):
-        r, c = self.__position
+    def sense(self, position = None):
+        r, c = self.__position if position is None else position
         obs = [None, None, None, None]  # Up, down, left, right.
 
         # Up.
@@ -90,7 +90,13 @@ class Environment:
             return State.OCCUPIED
 
     def get_possible_locations_given_observation(self, observation):
-        pass
+        slots = []
+        for r in range(self.n_rows):
+            for c in range(self.n_cols):
+                if self.sense((r, c)) == observation:
+                    slots.append((r, c))
+
+        return slots
 
     def __repr__(self):
         to_print = ""
