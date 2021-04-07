@@ -16,10 +16,8 @@ class State(Enum):
     OCCUPIED = 201      # Cell is a wall.
 
 class Environment:
-    def __init__(self, map, sensor_noise=0, action_noise=0):
+    def __init__(self, map):
         self.map = map
-        self.sensor_noise = sensor_noise
-        self.action_noise = action_noise
 
         self.n_rows = len(map)
         self.n_cols = len(map[0])
@@ -30,41 +28,29 @@ class Environment:
         r, c = self.position
         obs = [None, None, None, None]  # Up, down, left, right.
 
-        if np.random.random() < self.sensor_noise:
-            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
+        # Up.
+        if self.__is_free_cell((r - 1, c)):
+            obs[0] = State.FREE
         else:
-            # Up.
-            if self.__is_free_cell((r - 1, c)):
-                obs[0] = State.FREE
-            else:
-                obs[0] = State.OCCUPIED
+            obs[0] = State.OCCUPIED
 
-        if np.random.random() < self.sensor_noise:
-            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
+        # Down.
+        if self.__is_free_cell((r + 1, c)):
+            obs[0] = State.FREE
         else:
-            # Down.
-            if self.__is_free_cell((r + 1, c)):
-                obs[0] = State.FREE
-            else:
-                obs[0] = State.OCCUPIED
+            obs[0] = State.OCCUPIED
 
-        if np.random.random() < self.sensor_noise:
-            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
+        # Left.
+        if self.__is_free_cell((r, c - 1)):
+            obs[0] = State.FREE
         else:
-            # Left.
-            if self.__is_free_cell((r, c - 1)):
-                obs[0] = State.FREE
-            else:
-                obs[0] = State.OCCUPIED
+            obs[0] = State.OCCUPIED
 
-        if np.random.random() < self.sensor_noise:
-            obs[0] = np.random.choice([State.FREE, State.OCCUPIED])
+        # Right.
+        if self.__is_free_cell((r, c + 1)):
+            obs[0] = State.FREE
         else:
-            # Right.
-            if self.__is_free_cell((r, c + 1)):
-                obs[0] = State.FREE
-            else:
-                obs[0] = State.OCCUPIED
+            obs[0] = State.OCCUPIED
 
         return obs
 
