@@ -12,8 +12,8 @@ class Stage(Enum):
     PERCEPTION = 101    # Perception/measurement/correction stage.
 
 class State(Enum):
-    FREE = 200
-    OCCUPIED = 201
+    FREE = 200          # Cell is free.
+    OCCUPIED = 201      # Cell is a wall.
 
 class Environment:
     def __init__(self, map, sensor_noise=0, action_noise=0):
