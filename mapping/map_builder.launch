@@ -1,0 +1,44 @@
+<launch>
+	<!-- publish static transforms -->
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_0" args="0 0 0 0 0 0 /world /map 100" />
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_1" args="0 0 0 0 0 0 /world /base_link 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_2a" args="0 0 0 0 0 0 /world /actual_laser 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_2b" args="0 0 0 0 0 0 /base_link /robot 100" />
+
+
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_3a" args="0 0 0 0 0 0 /robot /base_footprint 100" />
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_3b" args="0 0 0 0 0 0 /robot /imu_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_3c" args="0 0 0 0 0 0 /robot /caster_back_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_3d" args="0 0 0 0 0 0 /robot /wheel_left_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="fixed_map_3e" args="0 0 0 0 0 0 /robot /wheel_right_link 100" />
+
+
+	<!-- map publisher node -->
+	<param name="occupancy_rate" value="15" />
+	<param name="grid_resolution" value="0.05" />
+	<param name="grid_width" value="300" />
+	<param name="grid_height" value="300" />
+
+    <arg name="open_rviz" default="true"/>
+
+    <node pkg="slam_task" type="map_builder.py" name="laser_to_occupancy_grid_node" output="screen" />
+
+    <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+        <param name="output_frame" value="odom"/>
+        <param name="freq" value="30.0"/>
+        <param name="sensor_timeout" value="1.0"/>
+        <param name="odom_used" value="true"/>
+        <param name="imu_used" value="true"/>
+        <param name="vo_used" value="false"/>
+        <param name="debug" value="false"/>
+        <param name="self_diagnose" value="false"/>
+    </node>
+
+
+    <group if="$(arg open_rviz)">
+        <node pkg="rviz" type="rviz" name="rviz" required="true"
+            args="-d $(find slam_task)/rviz/config.rviz"/>
+    </group>
+</launch>
