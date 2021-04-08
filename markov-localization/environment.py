@@ -60,21 +60,21 @@ class Environment:
 
         # Down.
         if self.__is_free_cell((r + 1, c)):
-            obs[0] = State.FREE
+            obs[1] = State.FREE
         else:
-            obs[0] = State.OCCUPIED
+            obs[1] = State.OCCUPIED
 
         # Left.
         if self.__is_free_cell((r, c - 1)):
-            obs[0] = State.FREE
+            obs[2] = State.FREE
         else:
-            obs[0] = State.OCCUPIED
+            obs[2] = State.OCCUPIED
 
         # Right.
         if self.__is_free_cell((r, c + 1)):
-            obs[0] = State.FREE
+            obs[3] = State.FREE
         else:
-            obs[0] = State.OCCUPIED
+            obs[3] = State.OCCUPIED
 
         return obs
 
