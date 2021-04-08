@@ -127,7 +127,8 @@ class Environment:
                             vmax=1,
                             annot=True,
                             linewidths=1,
-                            cmap="viridis")
+                            cmap="viridis",
+                            cbar=False)
 
         ax.add_patch(Rectangle((c, r), 1, 1, ec='red', fc='none', lw=2))
 
@@ -137,11 +138,14 @@ class Environment:
                     ax.add_patch(Rectangle((c, r), 1, 1, ec='white', fc='none', lw=0.1, hatch="/"))
 
         plt.title(title)
+        plt.axis('off')
 
         if save_only:
-            plt.savefig(f'{title}.png', dpi=400)
+            plt.savefig(f'maps/{title}.png', dpi=400)
         else:
             plt.show()
+
+        plt.close()
 
     def __repr__(self):
         to_print = ""

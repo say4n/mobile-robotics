@@ -1,5 +1,6 @@
 from copy import deepcopy
 import numpy as np
+from numpy.lib.npyio import save
 from environment import State, Stage, Direction, Environment
 
 np.random.seed(68)
@@ -87,7 +88,7 @@ if __name__ == "__main__":
 
         # print(f"Action `{action = }` executed.\n{belief = }")
         # print(env)
-        env.render(belief, title=title)
+        env.render(belief, title=title, save_only=True)
 
     # print(env)
     # print(f"Final {belief = }")
