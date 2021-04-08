@@ -74,22 +74,29 @@ class Environment:
         return obs
 
     def act(self, direction):
-        r, c = self.__position
+        if direction in Direction:
+            self.__position = self.get_next_state(direction, self.__position)
+        else:
+            raise ValueError(f"Invalid {direction = }.")
+
+    def get_next_state(self, direction, position=None):
+        r, c = position
 
         if direction == Direction.U:
             if self.__is_free_cell(r + 1, c):
-                self.__position = (r + 1, c)
+                return (r + 1, c)
         elif direction == Direction.D:
             if self.__is_free_cell(r - 1, c):
-                self.__position = (r - 1, c)
+                return (r - 1, c)
         elif direction == Direction.L:
             if self.__is_free_cell(r, c - 1):
-                self.__position = (r, c - 1)
+                return (r, c - 1)
         elif direction == Direction.R:
             if self.__is_free_cell(r, c + 1):
-                self.__position = (r, c + 1)
+                return (r, c + 1)
         else:
-            raise ValueError(f"Invalid {direction = }.")
+            # Next state is current state.
+            return (r, c)
 
     def __is_free_cell(self, position):
         r, c = position
