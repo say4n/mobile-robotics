@@ -25,6 +25,7 @@ if __name__ == "__main__":
         r, c = cell
         belief[r, c] = 1/len(free_cells)
 
+    print(env)
     print(f"Initial {belief = }")
 
     actions = [
@@ -81,4 +82,5 @@ if __name__ == "__main__":
         # print(f"Action `{action = }` executed.\n{belief = }")
         # print(env)
 
+    print(env)
     print(f"Final {belief = }")
