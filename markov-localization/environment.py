@@ -82,21 +82,20 @@ class Environment:
     def get_next_state(self, direction, position):
         r, c = position
 
-        if direction == Direction.U:
-            if self.__is_free_cell(r + 1, c):
-                return (r + 1, c)
-        elif direction == Direction.D:
-            if self.__is_free_cell(r - 1, c):
-                return (r - 1, c)
-        elif direction == Direction.L:
-            if self.__is_free_cell(r, c - 1):
-                return (r, c - 1)
-        elif direction == Direction.R:
-            if self.__is_free_cell(r, c + 1):
-                return (r, c + 1)
-        else:
-            # Next state is current state.
-            return (r, c)
+        if direction == Direction.U and self.__is_free_cell((r - 1, c)):
+            return (r - 1, c)
+
+        if direction == Direction.D and self.__is_free_cell((r + 1, c)):
+            return (r + 1, c)
+
+        if direction == Direction.L and self.__is_free_cell((r, c - 1)):
+            return (r, c - 1)
+
+        if direction == Direction.R and self.__is_free_cell((r, c + 1)):
+            return (r, c + 1)
+
+        # Next state is current state.
+        return (r, c)
 
     def __is_free_cell(self, position):
         r, c = position
@@ -104,7 +103,7 @@ class Environment:
             return self.map[r][c] == State.FREE
         else:
             # Invalid position.
-            return State.OCCUPIED
+            return False
 
     def get_possible_locations_given_observation(self, observation):
         slots = []
