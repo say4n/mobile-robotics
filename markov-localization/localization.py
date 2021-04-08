@@ -34,6 +34,8 @@ if __name__ == "__main__":
         [Stage.PREDICTION, Direction.U],
         [Stage.PERCEPTION],
         [Stage.PREDICTION, Direction.R],
+        [Stage.PERCEPTION],
+        [Stage.PREDICTION, Direction.R],
         [Stage.PERCEPTION]
     ]
 
@@ -72,10 +74,11 @@ if __name__ == "__main__":
             non_zero_probability_cells = np.argwhere(belief_copy > 0)
             for r, c in non_zero_probability_cells:
                 next_r, next_c = env.get_next_state(direction, (r, c))
-                print(f"{(r, c) = }, {(next_r, next_c) = }")
                 # Assuming single possible movement here.
                 # Else, needs to be divided by number of possible next states.
                 belief[next_r][next_c] += belief_copy[r][c]
 
-        print(f"Action `{action = }` executed.\n{belief = }")
-        print(env)
+        # print(f"Action `{action = }` executed.\n{belief = }")
+        # print(env)
+
+    print(f"Final {belief = }")
