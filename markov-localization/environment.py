@@ -79,7 +79,7 @@ class Environment:
         else:
             raise ValueError(f"Invalid {direction = }.")
 
-    def get_next_state(self, direction, position=None):
+    def get_next_state(self, direction, position):
         r, c = position
 
         if direction == Direction.U:
