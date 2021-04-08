@@ -119,7 +119,7 @@ class Environment:
 
         return slots
 
-    def render(self, belief, title = ""):
+    def render(self, belief, title = "", save_only = False):
         r, c = self.__position
 
         ax = sns.heatmap(belief,
@@ -137,7 +137,11 @@ class Environment:
                     ax.add_patch(Rectangle((c, r), 1, 1, ec='white', fc='none', lw=0.1, hatch="/"))
 
         plt.title(title)
-        plt.show()
+
+        if save_only:
+            plt.savefig(f'{title}.png', dpi=400)
+        else:
+            plt.show()
 
     def __repr__(self):
         to_print = ""
