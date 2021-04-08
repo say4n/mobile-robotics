@@ -35,9 +35,9 @@ if __name__ == "__main__":
         [Stage.PERCEPTION],
         [Stage.PREDICTION, Direction.U],
         [Stage.PERCEPTION],
-        [Stage.PREDICTION, Direction.R],
-        [Stage.PERCEPTION],
         [Stage.PREDICTION, Direction.D],
+        [Stage.PERCEPTION],
+        [Stage.PREDICTION, Direction.R],
         [Stage.PERCEPTION]
     ]
 
