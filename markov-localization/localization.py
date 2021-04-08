@@ -2,6 +2,7 @@ from copy import deepcopy
 import numpy as np
 from environment import State, Stage, Direction, Environment
 
+np.random.seed(0)
 
 if __name__ == "__main__":
     map = [
@@ -25,8 +26,8 @@ if __name__ == "__main__":
         r, c = cell
         belief[r, c] = 1/len(free_cells)
 
-    print(env)
-    print(f"Initial {belief = }")
+    # print(env)
+    # print(f"Initial {belief = }")
 
     actions = [
         [Stage.PERCEPTION],
@@ -37,10 +38,13 @@ if __name__ == "__main__":
         [Stage.PREDICTION, Direction.R],
         [Stage.PERCEPTION],
         [Stage.PREDICTION, Direction.D],
+        [Stage.PERCEPTION],
+        [Stage.PREDICTION, Direction.R],
         [Stage.PERCEPTION]
     ]
 
-    for action in actions:
+    for ia, action in enumerate(actions):
+        title = None
         if action[0] == Stage.PERCEPTION:
             # See phase.
             obs = env.sense()
@@ -60,6 +64,8 @@ if __name__ == "__main__":
             belief = np.zeros(belief.shape)
             for i, (r, c) in enumerate(possible_locs):
                 belief[r][c] = posteriors[i]
+
+            title = f"Step {ia + 1} of {len(actions)} (Perception)"
         else:
             # Act phase.
             direction = action[1]
@@ -79,8 +85,11 @@ if __name__ == "__main__":
                 # Else, needs to be divided by number of possible next states.
                 belief[next_r][next_c] += belief_copy[r][c]
 
+            title = f"Step {ia + 1} of {len(actions)} (Prediction, {direction})"
+
         # print(f"Action `{action = }` executed.\n{belief = }")
         # print(env)
+        env.render(belief, title=title)
 
-    print(env)
-    print(f"Final {belief = }")
+    # print(env)
+    # print(f"Final {belief = }")

@@ -1,5 +1,10 @@
-import numpy as np
 from enum import Enum
+
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+from matplotlib.patches import Rectangle
+
 
 class State(Enum):
     FREE = 0                # Cell is free.
@@ -113,6 +118,26 @@ class Environment:
                     slots.append((r, c))
 
         return slots
+
+    def render(self, belief, title = ""):
+        r, c = self.__position
+
+        ax = sns.heatmap(belief,
+                            vmin=0,
+                            vmax=1,
+                            annot=True,
+                            linewidths=1,
+                            cmap="viridis")
+
+        ax.add_patch(Rectangle((c, r), 1, 1, ec='red', fc='none', lw=2))
+
+        for r in range(self.n_rows):
+            for c in range(self.n_cols):
+                if not self.__is_free_cell((r, c)):
+                    ax.add_patch(Rectangle((c, r), 1, 1, ec='white', fc='none', lw=0.1, hatch="/"))
+
+        plt.title(title)
+        plt.show()
 
     def __repr__(self):
         to_print = ""
