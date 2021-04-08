@@ -1,3 +1,4 @@
+from copy import deepcopy
 import numpy as np
 from environment import State, Stage, Direction, Environment
 
@@ -17,8 +18,6 @@ if __name__ == "__main__":
     ]
 
     env = Environment(map)
-    print(env)
-
     free_cells = env.get_free_cells()
 
     belief = np.zeros((env.get_n_rows(), env.get_n_cols()))
@@ -26,7 +25,7 @@ if __name__ == "__main__":
         r, c = cell
         belief[r, c] = 1/len(free_cells)
 
-    print(f"Initial {belief = }.")
+    print(f"Initial {belief = }")
 
     actions = [
         [Stage.PERCEPTION],
@@ -51,6 +50,7 @@ if __name__ == "__main__":
                 posteriors[i] = 1 * belief[r][c]
 
             # Normalize probabilities.
+            # breakpoint()
             posteriors = posteriors / np.sum(posteriors)
 
             # Update beliefs.
@@ -59,6 +59,23 @@ if __name__ == "__main__":
                 belief[r][c] = posteriors[i]
         else:
             # Act phase.
-            a = action[1]
+            direction = action[1]
+            env.act(direction)
+
+            # Keep a copy of previous beliefs.
+            belief_copy = deepcopy(belief)
+
+            # Re-initialize beliefs.
+            belief = np.zeros(belief.shape)
+
+            # Update beliefs.
+            non_zero_probability_cells = np.argwhere(belief_copy > 0)
+            for r, c in non_zero_probability_cells:
+                next_r, next_c = env.get_next_state(direction, (r, c))
+                print(f"{(r, c) = }, {(next_r, next_c) = }")
+                # Assuming single possible movement here.
+                # Else, needs to be divided by number of possible next states.
+                belief[next_r][next_c] += belief_copy[r][c]
 
         print(f"Action `{action = }` executed.\n{belief = }")
+        print(env)
