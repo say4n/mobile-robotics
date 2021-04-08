@@ -2,7 +2,7 @@ from copy import deepcopy
 import numpy as np
 from environment import State, Stage, Direction, Environment
 
-np.random.seed(0)
+np.random.seed(68)
 
 if __name__ == "__main__":
     map = [
