@@ -3,7 +3,7 @@ import numpy as np
 from numpy.lib.npyio import save
 from environment import State, Stage, Direction, Environment
 
-np.random.seed(68)
+np.random.seed(72)
 
 if __name__ == "__main__":
     map = [
@@ -29,6 +29,8 @@ if __name__ == "__main__":
 
     # print(env)
     # print(f"Initial {belief = }")
+
+    env.render(belief, title="Initial belief", save_only=True)
 
     actions = [
         [Stage.PERCEPTION],
