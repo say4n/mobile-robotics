@@ -141,7 +141,7 @@ class Environment:
         plt.axis('off')
 
         if save_only:
-            plt.savefig(f'maps/{title}.png', dpi=400)
+            plt.savefig(f'maps/{title}.png', dpi=300, bbox_inches='tight')
         else:
             plt.show()
 
